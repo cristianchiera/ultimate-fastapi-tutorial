@@ -62,8 +62,13 @@ def search_recipes(
         # based on the max_results query parameter
         return {"results": RECIPES[:max_results]}
 
-    results = filter(lambda recipe: keyword.lower() in recipe["label"].lower(), RECIPES)
-    return {"results": list(results)[:max_results]}
+    results = list(filter(lambda recipe: keyword.lower() in recipe["label"].lower(), RECIPES))
+    if not results:
+        raise HTTPException(status_code=404, detail=f"Recipe with LABEL {keyword} not found")
+    
+    return {"results": results[:max_results]}
+
+
 
 
 @api_router.post("/recipe/", status_code=201, response_model=Recipe)

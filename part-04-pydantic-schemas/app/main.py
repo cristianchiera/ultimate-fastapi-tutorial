@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Query
+from fastapi import FastAPI, APIRouter, Query, HTTPException
 
 from typing import Optional
 
@@ -28,8 +28,12 @@ def fetch_recipe(*, recipe_id: int) -> dict:
     """
 
     result = [recipe for recipe in RECIPES if recipe["id"] == recipe_id]
-    if result:
-        return result[0]
+    # Si no se encuentra, lanzamos una excepción con código 404
+    # if not result:
+    #     raise HTTPException(status_code=404, detail=f"Recipe with ID {recipe_id} not found")
+    
+    # Si se encuentra, devolvemos la receta (el primer elemento de la lista)
+    return result[0]
 
 
 # Updated using the FastAPI parameter validation `Query` class
@@ -59,7 +63,13 @@ def search_recipes(
 
     results = filter(lambda recipe: keyword.lower() in recipe["label"].lower(), RECIPES)
     return {"results": list(results)[:max_results]}
+    #    results = list(filter(lambda recipe: keyword.lower() in recipe["label"].lower(), RECIPES))
+    # if not results:
+    #     raise HTTPException(status_code=404, detail=f"Recipe with LABEL {keyword} not found")
+    
+    #return {"results": results[:max_results]}
 
+ 
 
 # New addition, using Pydantic model `RecipeCreate` to define
 # the POST request body

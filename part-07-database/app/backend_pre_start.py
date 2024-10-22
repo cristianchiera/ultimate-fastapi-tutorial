@@ -1,8 +1,13 @@
 import logging
+import sys
+import os
 
-from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.db.session import SessionLocal
+from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed # type: ignore
+
+from db.session import SessionLocal
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

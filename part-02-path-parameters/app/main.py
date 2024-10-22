@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter
 
+from typing import Optional
 
 RECIPES = [
     {
@@ -20,6 +21,25 @@ RECIPES = [
         "source": "Serious Eats",
         "url": "http://www.seriouseats.com/recipes/2011/02/cauliflower-and-tofu-curry-recipe.html",
     },
+    {
+        "id": 4,
+        "label": "Masas para sopaipillas",
+        "source": "Recetas Gratis",
+        "url": "https://www.recetasgratis.net/receta-de-masas-para-sopaipillas-77646.html",
+    },
+    {
+        "id": 5,
+        "label": "Causa limeña",
+        "source": "Recetas Gratis",
+        "url": "https://www.recetasgratis.net/receta-de-causa-limena-31268.html",
+    },
+    {
+        "id": 6,
+        "label": "Torta de manzana sin harina",
+        "source": "Recetas Gratis",
+        "url": "https://www.recetasgratis.net/receta-de-torta-de-manzana-sin-harina-77668.html",
+    },
+    
 ]
 
 
@@ -45,8 +65,33 @@ def fetch_recipe(*, recipe_id: int) -> dict:
     """
 
     result = [recipe for recipe in RECIPES if recipe["id"] == recipe_id]
-    if result:
+    # if result:
+    #     return result[0]
+    try:
         return result[0]
+    except IndexError:
+         return {"status": 404, "error": "Recipe not found"}
+
+
+
+# New addition, query parameter
+# https://fastapi.tiangolo.com/tutorial/query-params/
+@api_router.get("/search/", status_code=200)
+def search_recipes(
+    keyword: Optional[str] = None, max_results: Optional[int] = 10
+) -> dict:
+    """
+    Search for recipes based on label keyword
+    """
+    if not keyword:
+        # we use Python list slicing to limit results
+        # based on the max_results query parameter
+        return {"results": RECIPES[:max_results]}
+
+    results = filter(lambda recipe: keyword.lower() in recipe["label"].lower(), RECIPES)
+    return {"results": list(results)[:max_results]}
+
+
 
 
 app.include_router(api_router)

@@ -18,4 +18,4 @@ class RecipeCreate(BaseModel):
     label: str
     source: str
     url: HttpUrl
-    submitter_id: int
+    #submitter_id: int

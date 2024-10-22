@@ -7,7 +7,7 @@ from app.recipe_data import RECIPES
 
 logger = logging.getLogger(__name__)
 
-FIRST_SUPERUSER = "admin@recipeapi.com"
+FIRST_SUPERUSER = "admin@remanofe.com"
 
 # make sure all SQL Alchemy models are imported (app.db.base) before initializing DB
 # otherwise, SQL Alchemy might fail to initialize relationships properly
@@ -23,9 +23,10 @@ def init_db(db: Session) -> None:
         user = crud.user.get_by_email(db, email=FIRST_SUPERUSER)
         if not user:
             user_in = schemas.UserCreate(
-                full_name="Initial Super User",
-                email=FIRST_SUPERUSER,
-                is_superuser=True,
+                        first_name="Initial",
+                        surname="Superuser",
+                        email=FIRST_SUPERUSER,
+                        is_superuser=True,
             )
             user = crud.user.create(db, obj_in=user_in)  # noqa: F841
         else:

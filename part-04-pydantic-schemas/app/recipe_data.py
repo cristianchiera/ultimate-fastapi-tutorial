@@ -17,4 +17,22 @@ RECIPES = [
         "source": "Serious Eats",
         "url": "http://www.seriouseats.com/recipes/2011/02/cauliflower-and-tofu-curry-recipe.html",
     },
+    {
+        "id": 4,
+        "label": "Masas para sopaipillas",
+        "source": "Recetas Gratis",
+        "url": "https://www.recetasgratis.net/receta-de-masas-para-sopaipillas-77646.html",
+    },
+    {
+        "id": 5,
+        "label": "Causa limeña",
+        "source": "Recetas Gratis",
+        "url": "https://www.recetasgratis.net/receta-de-causa-limena-31268.html",
+    },
+    {
+        "id": 6,
+        "label": "Torta de manzana sin harina",
+        "source": "Recetas Gratis",
+        "url": "https://www.recetasgratis.net/receta-de-torta-de-manzana-sin-harina-77668.html",
+    },
 ]
